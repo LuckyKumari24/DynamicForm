@@ -1,0 +1,86 @@
+<form [formGroup]="employeeForm" (ngSubmit)="saveForm()" class="form-container">
+    <!-- Display the form title -->
+    <h1 class="form-title">{{ formData.title }}</h1>
+    <!-- Display all the fields as per the type -->
+    <div *ngFor="let fieldSet of formData.formFields">
+        <fieldset>
+            <legend>{{ fieldSet.label }}</legend>
+            <div *ngFor="let field of fieldSet.fields">
+                <ng-container *ngIf="field.type !== 'date'; else dateField">
+                    <ng-container
+                        *ngIf="field.type !== 'radio' && field.type !== 'checkbox' && field.type !== 'select'">
+                        <div>
+                            <label>{{ field.label }}</label>
+                            <input [type]="field.type" [placeholder]="field.placeholder ? field.placeholder : ''"
+                                [formControlName]="field.name" />
+                            <div *ngIf="employeeForm.get(field.name)?.invalid && employeeForm.get(field.name)?.touched"
+                                class="error-message">
+                                <span *ngIf="employeeForm.get(field.name)?.errors?.['required'] ?? false">Field is
+                                    required</span>
+                                <span *ngIf="employeeForm.get(field.name)?.errors?.['pattern'] ?? false">Invalid
+                                    input</span>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+                <!-- Display Date Field -->
+                <ng-template #dateField>
+                    <label>{{ field.label }}</label>
+                    <input type="date" [formControlName]="field.name" />
+                    <div *ngIf="employeeForm.get(field.name)?.invalid && employeeForm.get(field.name)?.touched"
+                        class="error-message">
+                        <span *ngIf="employeeForm.get(field.name)?.errors?.['required'] ?? false">Field is
+                            required</span>
+                    </div>
+                </ng-template>
+                <div *ngIf="field.type === 'radio'">
+
+                    <label>{{ field.label }}</label>
+                    <div class="options">
+                        <div *ngFor="let option of field.options">
+                            <label>
+                                <input type="radio" [formControlName]="field.name" [value]="option.value" />
+                                {{ option.label }}
+                            </label>
+                        </div>
+                    </div>
+                    <div *ngIf="employeeForm.get(field.name)?.invalid && employeeForm.get(field.name)?.touched"
+                        class="error-message">
+                        <span *ngIf="employeeForm.get(field.name)?.errors?.['required'] ?? false">Field is
+                            required</span>
+                    </div>
+                </div>
+                <div *ngIf="field.type === 'checkbox'">
+                    <label>{{ field.label }}</label>
+                    <div class="options">
+                        <div *ngFor="let option of field.options">
+                            <label>
+                                <input type="checkbox" [formControlName]="field.name" [value]="option.value" />
+                                {{ option.label }}</label>
+                        </div>
+                        <div *ngIf="employeeForm.get(field.name)?.invalid && employeeForm.get(field.name)?.touched"
+                        class="error-message">
+                        <span *ngIf="employeeForm.get(field.name)?.errors?.['required'] ?? false">Field is
+                            required</span>
+                    </div>
+                    </div>
+                </div>
+                <div *ngIf="field.type === 'select'">
+                    <label>{{ field.label }}</label>
+                    <select [formControlName]="field.name">
+                        <option *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</option>
+                    </select>
+                    <div *ngIf="employeeForm.get(field.name)?.invalid && employeeForm.get(field.name)?.touched"
+                    class="error-message">
+                    <span *ngIf="employeeForm.get(field.name)?.errors?.['required'] ?? false">Field is
+                        required</span>
+                </div>
+                </div>   
+            </div>
+        </fieldset>
+    </div>
+    <!-- Save Button -->
+    <button type="submit" class="save-button">Save</button>
+    <!-- Reset Button -->
+    <button type="button" (click)="resetForm()" class="reset-button">Reset</button>
+</form>
