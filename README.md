@@ -25,3 +25,8 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## Project Screenshot
+
+![image](https://github.com/LuckyKumari24/DynamicForm/assets/155760787/7423d59e-b084-46a5-9a30-6ff0732a6fb2)
+
